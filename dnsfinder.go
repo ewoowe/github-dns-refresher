@@ -2,14 +2,15 @@ package main
 
 import (
 	"errors"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
 
 const ipaddress = "https://ipaddress.com/website/"
-const github_com = "github.com"
-const github_ssl = "github.global.ssl.fastly.net"
+const githubCom = "github.com"
+const githubSsl = "github.global.ssl.fastly.net"
 const pattern = "IP Address</th><td><ul class=\"comma-separated\"><li>"
 
 func httpGet(url string) (string, error) {
@@ -18,7 +19,9 @@ func httpGet(url string) (string, error) {
 		return "", err
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
@@ -49,9 +52,9 @@ func getIpOf(url string) (string, error) {
 }
 
 func GetIpOfGithubCom() (string, error) {
-	return getIpOf(github_com)
+	return getIpOf(githubCom)
 }
 
 func GetIpOfGithubSsl() (string, error) {
-	return getIpOf(github_ssl)
+	return getIpOf(githubSsl)
 }

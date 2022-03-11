@@ -12,7 +12,9 @@ const LinuxHostFile = "/home/wangcheng/桌面/hoststmp"
 func GetHostsLine() ([]string, error) {
 	var lines []string
 	var hostFile *os.File
-	defer hostFile.Close()
+	defer func(hostFile *os.File) {
+		_ = hostFile.Close()
+	}(hostFile)
 	if runtime.GOOS == "linux" {
 		tmp, err := os.Open(LinuxHostFile)
 		if err != nil {
