@@ -9,8 +9,8 @@ import (
 )
 
 const ipaddress = "https://ipaddress.com/website/"
-const githubCom = "github.com"
-const githubSsl = "github.global.ssl.fastly.net"
+const GithubCom = "github.com"
+const GithubSsl = "github.global.ssl.fastly.net"
 const pattern = "IP Address</th><td><ul class=\"comma-separated\"><li>"
 
 func httpGet(url string) (string, error) {
@@ -52,9 +52,9 @@ func getIpOf(url string) (string, error) {
 }
 
 func GetIpOfGithubCom() (string, error) {
-	return getIpOf(githubCom)
+	return getIpOf(GithubCom)
 }
 
 func GetIpOfGithubSsl() (string, error) {
-	return getIpOf(githubSsl)
+	return getIpOf(GithubSsl)
 }
