@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -10,10 +11,13 @@ import (
 )
 
 const WinHostsFile = ""
-const LinuxHostFile = "/home/wangcheng/桌面/hoststmp"
+const LinuxHostFile = "/etc/hosts"
 
 //SetHostsLine ssl is ip of "github.global.ssl.fastly.net", github is ip of "github.com"
 func SetHostsLine(ssl, github string) error {
+	if ssl == "" || github == "" || len(ssl) == 0 || len(github) == 0 {
+		return errors.New("ssl and github cant be nil")
+	}
 	var lines []string
 	var hostFile *os.File
 	if runtime.GOOS == "linux" {
@@ -104,16 +108,9 @@ func SetHostsLine(ssl, github string) error {
 		}
 
 		_ = hostFile.Close()
-
-		source()
 	} else {
 		fmt.Printf("not any host changed, noting to do\n")
 	}
 
 	return nil
-}
-
-//source source host file
-func source() {
-
 }
